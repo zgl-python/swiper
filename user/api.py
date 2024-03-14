@@ -5,6 +5,7 @@ from common import keys
 from libs.http import render_json
 from django.core.cache import cache
 from user.models import User
+from user.forms import ProfileForm
  
 # Create your views here.
 
@@ -49,3 +50,14 @@ def get_profile(request):
     '''获取个人资料'''
     profile_data = request.user.profile.to_dict()
     return render_json(profile_data)
+
+def set_profile(request):
+    '''设置个人资料'''
+    form = ProfileForm(request.POST)
+    if form.is_valid():
+        profile = form.save(commit=False)  # 只创建了一个profile对象并不提交
+        profile.id = request.session['uid']  # 将用户与profile进行绑定
+        profile.save()
+        return render_json()
+    else:
+        return render_json(data=form.errors, code=errors.PROFILE_ERR)
