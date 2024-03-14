@@ -21,6 +21,7 @@ from user import api as user_api
 
 urlpatterns = [
     # user模块
-    url(r'user/get_vcode', user_api.get_vcode),
-    url(r'user/check_vcode', user_api.check_vcode),
+    url(r'api/user/get_vcode', user_api.get_vcode),
+    url(r'api/user/check_vcode', user_api.check_vcode),
+    url(r'api/user/get_profile', user_api.get_profile),
 ]

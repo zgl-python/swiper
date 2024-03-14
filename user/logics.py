@@ -2,6 +2,9 @@
 import re
 import random
 
+from django.core.cache import cache
+from common import keys
+
 
 def is_phonenum(phonenum):
     '''检查是否是一个正常的手机号'''
@@ -18,9 +21,21 @@ def gen_random_code(length=4):
     v_code = rand_num % random.randrange(0, 10 ** length)
     return v_code
 
-
+def send_sms(phonenum, v_code):
+    """发送短信"""
+    # print(v_code)
+    return v_code
     
 def send_vcode(phonenum):
     '''发送验证码'''
-    # 产生一个随机的验证码
-    v_code = gen_random_code(6)   
+    v_code = gen_random_code(6)    # 产生一个随机的验证码
+    print('----------->', v_code)
+    response = send_sms(phonenum, v_code)    # 发送验证码
+    key = keys.VCODE_KEY % phonenum
+    cache.set(key, v_code, 180)     # 将验证码放到缓存中
+    return True
+
+
+
+
+

@@ -43,6 +43,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'common.middleware.AuthMiddleware',
 ]
 
 ROOT_URLCONF = 'swipe.urls'
@@ -69,8 +70,13 @@ WSGI_APPLICATION = 'swipe.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'swiper',
+        'HOST': 'localhost',
+        'USER': 'zgl',
+        'PORT': '3306',
+        'PASSWORD': '123456',
+        
     }
 }
 
