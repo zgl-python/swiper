@@ -6,9 +6,10 @@ from user.models import User
 
 
 class AuthMiddleware(MiddlewareMixin):
+
     AUTH_URL_WHITE = [
-        'api/user/get_vcode',
-        'api/user/check_vcode'
+        '/api/user/get_vcode',
+        '/api/user/check_vcode'
     ]
 
     def process_request(self, request):

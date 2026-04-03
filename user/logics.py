@@ -1,8 +1,10 @@
 # 存放所有通用逻辑代码
 import re
 import random
+import os
 
 from django.core.cache import cache
+from django.conf import settings
 from common import keys
 
 
@@ -35,6 +37,29 @@ def send_vcode(phonenum):
     cache.set(key, v_code, 180)     # 将验证码放到缓存中
     return True
 
+
+def save_upload_file(uid, upload_file):
+    """保存上传的形象图片"""
+    filename = "avatar_%s.png" % uid
+    full_path = os.path.join(settings.BASE_DIR, settings.MEDIA_ROOT, filename)
+    print(full_path)
+    for chunk in upload_file.chunks():
+        with open(full_path, "wb+") as fp:
+            fp.write(chunk)
+    return filename, full_path
+        
+
+
+import time
+from workers import celery_app
+
+
+
+# 使用装饰器的方式引入celery, 将add函数作为一个任务
+@celery_app.task
+def add_to(x, y, z):
+    time.sleep(5)
+    return x+y+z
 
 
 
